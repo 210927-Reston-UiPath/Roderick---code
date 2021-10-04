@@ -1,0 +1,15 @@
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\PhoneApp.exe
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\PhoneApp.deps.json
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\PhoneApp.runtimeconfig.json
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\PhoneApp.dll
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\ref\PhoneApp.dll
+C:\Revature\Roderick---code\PhoneApp\bin\Debug\net6.0\PhoneApp.pdb
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.vbproj.AssemblyReference.cache
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.AssemblyInfoInputs.cache
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.AssemblyInfo.vb
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.vbproj.CoreCompileInputs.cache
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.dll
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\ref\PhoneApp.dll
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.pdb
+C:\Revature\Roderick---code\PhoneApp\obj\Debug\net6.0\PhoneApp.genruntimeconfig.cache

@@ -1,5 +1,6 @@
-Module Program
-    Sub Main(args As String())
+Class MainMenu
+    Implements IMenu
+    Sub Initial() Implements IMenu.Start
         Console.WriteLine("Hello World!")
         dim repeat as Boolean = true
         Do While repeat
@@ -9,11 +10,12 @@ Module Program
             Dim input as string = Console.ReadLine()
             Select Case input
                 Case "0"
-                    Console.WriteLine("Hello")d
+                    Console.WriteLine("Hello")
                 Case "x"
                     Console.WriteLine("Goodbye")
                     repeat = false
             End Select
         Loop
     End Sub
-End Module
+
+End Class
