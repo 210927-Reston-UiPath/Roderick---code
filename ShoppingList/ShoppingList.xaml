@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="ShoppingList" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="934,6569" sap2010:WorkflowViewState.IdRef="ShoppingList_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:maes="clr-namespace:Microsoft.Activities.Extensions.Statements;assembly=Microsoft.Activities.Extensions" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="ShoppingList" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="865,7624" sap2010:WorkflowViewState.IdRef="ShoppingList_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:maes="clr-namespace:Microsoft.Activities.Extensions.Statements;assembly=Microsoft.Activities.Extensions" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="40">
       <x:String>System.Activities</x:String>
@@ -81,7 +81,7 @@
       <AssemblyReference>Microsoft.Activities.Extensions</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Checks an Outlook Email with the subject line New Shopping List, reads the email, then saves the attachment to a folder on your local drive, named ShoppingList" DisplayName="GetShoppingList" sap:VirtualizedContainerService.HintSize="875,6504" sap2010:WorkflowViewState.IdRef="Sequence_7">
+  <Sequence sap2010:Annotation.AnnotationText="Checks an Outlook Email with the subject line New Shopping List, reads the email, then saves the attachment to a folder on your local drive, named ShoppingList" DisplayName="GetShoppingList" sap:VirtualizedContainerService.HintSize="875,7559" sap2010:WorkflowViewState.IdRef="Sequence_7">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="retrieved" />
       <Variable x:TypeArguments="sd:DataTable" Name="ShopListDataT" />
@@ -107,6 +107,12 @@
       <Variable x:TypeArguments="x:Int32" Name="FancyExpenseReport" />
       <Variable x:TypeArguments="sd:DataTable" Name="FancyExpenseReportDataT" />
       <Variable x:TypeArguments="x:String" Name="See2" />
+      <Variable x:TypeArguments="sd:DataTable" Name="NewExpenseReportDataT" />
+      <Variable x:TypeArguments="x:String" Name="See3" />
+      <Variable x:TypeArguments="x:Int32" Name="TotalCost" />
+      <Variable x:TypeArguments="sd:DataTable" Name="DT" />
+      <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="NewShoppingList" />
+      <Variable x:TypeArguments="scg:IEnumerable(x:String)" Name="NewVendorList" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -125,6 +131,8 @@
         <InArgument x:TypeArguments="x:Int32">[ShopListDataT.rows.count]</InArgument>
       </Assign.Value>
     </Assign>
+    <ui:GetOutlookMailMessages TimeoutMS="{x:Null}" Account="roderick.a.lewis@outlook.com" DisplayName="Get Outlook Mail Messages" Filter="[Subject] = 'New Vendor List'" GetAttachements="False" sap:VirtualizedContainerService.HintSize="833,22" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_6" MailFolder="Inbox" MarkAsRead="False" Messages="[retrievedVendor]" OnlyUnreadMessages="False" Top="30" />
+    <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="C:\Users\roder\OneDrive\Documents\VendorList" sap:VirtualizedContainerService.HintSize="833,87" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_6" Message="[retrievedVendor(0)]" />
     <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[VendorListDataT]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="833,87" sap2010:WorkflowViewState.IdRef="ReadRange_2" SheetName="Sheet1" WorkbookPath="C:\Users\roder\OneDrive\Documents\VendorList\NewVendorList.xlsx" />
     <Assign sap:VirtualizedContainerService.HintSize="833,60" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
@@ -142,33 +150,44 @@
         <InArgument x:TypeArguments="x:Int32">0</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="833,1072" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_3">
+    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="833,1242" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_3">
       <ui:InterruptibleWhile.Body>
-        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="476,907" sap2010:WorkflowViewState.IdRef="Sequence_16">
+        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="554,1077" sap2010:WorkflowViewState.IdRef="Sequence_16">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="434,387" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_5" InstanceCachePeriod="3000" WorkbookPath="C:\Users\roder\OneDrive\Documents\VendorList\NewVendorList.xlsx">
+          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="512,557" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_5" InstanceCachePeriod="3000" WorkbookPath="C:\Users\roder\OneDrive\Documents\VendorList\NewVendorList.xlsx">
             <ui:ExcelApplicationScope.Body>
               <ActivityAction x:TypeArguments="ui:WorkbookApplication">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,278" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="478,448" sap2010:WorkflowViewState.IdRef="Sequence_17">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <ui:ExcelLookUpRange DisplayName="LookUp Range" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ExcelLookUpRange_7" Range="[&quot;B1:&quot;+&quot;B&quot;+(ShopListDataT.Rows.Count+1).ToString]" Result="[itemFound]" SheetName="Sheet1" Value="[ShopListDataT.rows(CustRowsChecked).Item(&quot;Product&quot;).ToString]" />
-                  <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_11" Text="[itemFound]" />
+                  <ui:ExcelLookUpRange DisplayName="LookUp Range" sap:VirtualizedContainerService.HintSize="436,87" sap2010:WorkflowViewState.IdRef="ExcelLookUpRange_7" Range="[&quot;B1:&quot;+&quot;B&quot;+(ShopListDataT.Rows.Count+1).ToString]" Result="[itemFound]" SheetName="Sheet1" Value="[ShopListDataT.rows(CustRowsChecked).Item(&quot;Product&quot;).ToString]" />
+                  <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="436,229" sap2010:WorkflowViewState.IdRef="CommentOut_6">
+                    <ui:CommentOut.Body>
+                      <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,151" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_11" Text="[itemFound]" />
+                      </Sequence>
+                    </ui:CommentOut.Body>
+                  </ui:CommentOut>
                 </Sequence>
               </ActivityAction>
             </ui:ExcelApplicationScope.Body>
           </ui:ExcelApplicationScope>
-          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="434,288" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_4" InstanceCachePeriod="3000" WorkbookPath="C:\Users\roder\OneDrive\Documents\FoundItemRows\FoundItemRows.xlsx">
+          <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="512,288" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_4" InstanceCachePeriod="3000" WorkbookPath="C:\Users\roder\OneDrive\Documents\FoundItemRows\FoundItemRows.xlsx">
             <ui:ExcelApplicationScope.Body>
               <ActivityAction x:TypeArguments="ui:WorkbookApplication">
                 <ActivityAction.Argument>
@@ -185,7 +204,7 @@
               </ActivityAction>
             </ui:ExcelApplicationScope.Body>
           </ui:ExcelApplicationScope>
-          <Assign sap:VirtualizedContainerService.HintSize="434,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+          <Assign sap:VirtualizedContainerService.HintSize="512,60" sap2010:WorkflowViewState.IdRef="Assign_12">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Int32">[CustRowsChecked]</OutArgument>
             </Assign.To>
@@ -268,7 +287,18 @@
         </InArgument>
       </ui:ReadRange.Range>
     </ui:ReadRange>
-    <ui:OutputDataTable DataTable="[ShopListWithPricesDataT]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="833,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[See]" />
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="833,192" sap2010:WorkflowViewState.IdRef="CommentOut_8">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_41">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:OutputDataTable DataTable="[ShopListWithPricesDataT]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" Text="[See]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
     <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="833,59" sap2010:WorkflowViewState.IdRef="MessageBox_17" Text="[See]" />
     <Assign sap:VirtualizedContainerService.HintSize="833,60" sap2010:WorkflowViewState.IdRef="Assign_16">
       <Assign.To>
@@ -278,9 +308,9 @@
         <InArgument x:TypeArguments="x:Int32">0</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="833,1790" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_7">
+    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="833,1960" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_7">
       <ui:InterruptibleWhile.Body>
-        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="797,1625" sap2010:WorkflowViewState.IdRef="Sequence_31">
+        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="797,1795" sap2010:WorkflowViewState.IdRef="Sequence_31">
           <Sequence.Variables>
             <Variable x:TypeArguments="x:Boolean" Name="ShowMe" />
             <Variable x:TypeArguments="x:Object" Name="ItemCost1" />
@@ -327,7 +357,7 @@
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:WriteCell Cell="A1" DisplayName="Write Cell" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteCell_3" SheetName="[CustName.ToString]" Text="[CustName]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
+                <ui:WriteCell Cell="A1" DisplayName="Write Cell" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteCell_3" SheetName="[CustName.ToString]" Text="Value" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
                 <ui:WriteCell Cell="[&quot;A&quot;+(PricesRowsChecked + 2).ToString]" DisplayName="Write Cell" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteCell_1" SheetName="[CustName.ToString]" Text="[ItemCost.ToString]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
               </Sequence>
             </If.Then>
@@ -335,7 +365,18 @@
               <ui:WriteCell Cell="A1" DisplayName="Write Cell" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteCell_2" SheetName="[CustName]" Text="[ItemCost.ToString]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
             </If.Else>
           </If>
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="755,59" sap2010:WorkflowViewState.IdRef="MessageBox_16" Text="[ItemCost.ToString]" />
+          <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="755,229" sap2010:WorkflowViewState.IdRef="CommentOut_9">
+            <ui:CommentOut.Body>
+              <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,151" sap2010:WorkflowViewState.IdRef="Sequence_42">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_16" Text="[ItemCost.ToString]" />
+              </Sequence>
+            </ui:CommentOut.Body>
+          </ui:CommentOut>
           <Assign sap:VirtualizedContainerService.HintSize="755,60" sap2010:WorkflowViewState.IdRef="Assign_20">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Int32">[PricesRowsChecked]</OutArgument>
@@ -358,11 +399,12 @@
         <InArgument x:TypeArguments="x:Int32">0</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="412,959" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_8">
+    <ui:InterruptibleWhile DisplayName="While" sap:VirtualizedContainerService.HintSize="833,1315" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_8">
       <ui:InterruptibleWhile.Body>
-        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,794" sap2010:WorkflowViewState.IdRef="Sequence_34">
+        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,1150" sap2010:WorkflowViewState.IdRef="Sequence_34">
           <Sequence.Variables>
-            <Variable x:TypeArguments="sd:DataTable" Name="NewExpenseReportDataT" />
+            <Variable x:TypeArguments="x:Int32" Name="NumOfExpenseRows" />
+            <Variable x:TypeArguments="x:Int32" Name="Track" />
           </Sequence.Variables>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -377,41 +419,41 @@
               <InArgument x:TypeArguments="x:String">[ShopListWithPricesDataT.rows(FancyExpenseReport).Item("CustomerName").ToString]</InArgument>
             </Assign.Value>
           </Assign>
-          <ui:ReadRange AddHeaders="True" DataTable="[FancyExpenseReportDataT]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ReadRange_5" SheetName="[CustName]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx">
+          <ui:ReadRange AddHeaders="True" DataTable="[FancyExpenseReportDataT]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ReadRange_7" SheetName="[CustName]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx">
             <ui:ReadRange.Range>
               <InArgument x:TypeArguments="x:String">
                 <Literal x:TypeArguments="x:String" Value="" />
               </InArgument>
             </ui:ReadRange.Range>
           </ui:ReadRange>
-          <ui:FilterDataTable DataTable="[FancyExpenseReportDataT]" DisplayName="Filter Data Table" FilterRowsMode="Remove" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="FilterDataTable_2" OutputDataTable="[NewExpenseReportDataT]" SelectColumnsMode="Keep">
-            <ui:FilterDataTable.Filters>
-              <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
-                <ui:FilterOperationArgument BooleanOperator="And" Operator="EQ">
-                  <ui:FilterOperationArgument.Column>
-                    <InArgument x:TypeArguments="x:String">[CustName]</InArgument>
-                  </ui:FilterOperationArgument.Column>
-                  <ui:FilterOperationArgument.Operand>
-                    <InArgument x:TypeArguments="x:String">[""]</InArgument>
-                  </ui:FilterOperationArgument.Operand>
-                </ui:FilterOperationArgument>
-              </scg:List>
-            </ui:FilterDataTable.Filters>
-            <ui:FilterDataTable.SelectColumns>
-              <scg:List x:TypeArguments="InArgument" Capacity="4">
-                <x:Null />
-              </scg:List>
-            </ui:FilterDataTable.SelectColumns>
-          </ui:FilterDataTable>
-          <ui:OutputDataTable DataTable="[FancyExpenseReportDataT]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_3" Text="[See2]" />
-          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_19" Text="[See2]" />
-          <ui:WriteRange AddHeaders="False" DataTable="[FancyExpenseReportDataT]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="[CustName]" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx">
-            <ui:WriteRange.StartingCell>
-              <InArgument x:TypeArguments="x:String">
-                <Literal x:TypeArguments="x:String" Value="" />
-              </InArgument>
-            </ui:WriteRange.StartingCell>
-          </ui:WriteRange>
+          <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_29">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[DT]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[FancyExpenseReportDataT.select("Value&lt; &gt;' '").CopyToDataTable()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:WriteRange AddHeaders="False" DataTable="[DT]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteRange_2" SheetName="[CustName + &quot;1&quot;]" StartingCell="A2" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
+          <ui:OutputDataTable DataTable="[DT]" DisplayName="Output Data Table" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="OutputDataTable_7" Text="[See2]" />
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="MessageBox_23" Text="[See2]" />
+          <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_26">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[NumOfExpenseRows]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[DT.rows.count]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_30">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[Track]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:WriteCell Cell="A1" DisplayName="Write Cell" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="WriteCell_4" SheetName="[CustName + &quot;1&quot;]" Text="Total Costs" WorkbookPath="C:\Users\roder\OneDrive\Documents\ExpenseReports\ExpenseReports.xlsx" />
           <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_25">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Int32">[FancyExpenseReport]</OutArgument>
@@ -423,7 +465,7 @@
         </Sequence>
       </ui:InterruptibleWhile.Body>
       <ui:InterruptibleWhile.Condition>
-        <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="FancyExpenseReport &lt;= FancyExpenseReportDataT.rows.count - 1" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_4" />
+        <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="FancyExpenseReport &lt;= ShopListDataT.rows.count - 1" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_5" />
       </ui:InterruptibleWhile.Condition>
     </ui:InterruptibleWhile>
   </Sequence>
